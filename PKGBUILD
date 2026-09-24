@@ -421,7 +421,6 @@ build() {
     ${CXXFLAGS}
   )
   _go_flags+=(
-    -buildmode=pie
     -trimpath
     -extldflags="-pie"
     -ldflags="-linkmode=external"
@@ -436,6 +435,20 @@ build() {
   _arch="$(
     uname \
       -m)"
+  if [[ "${_arch}" == "arm" || \
+        "${_arch}" == "i686" || \
+        "${_arch}" == "pentium4" ]]; then
+    _msg=(
+      "On 32-bit architecture '${_arch}'"
+      "do not add '-buildmode=pie'."
+    )
+    echo \
+      "${_msg[*]}"
+  else
+    _go_flags+=(
+      -buildmode=pie
+    )
+  fi
   if [[ "${_arch}" == "aarch64" ]]; then
     _msg=(
       "Do not specify any architecture"
