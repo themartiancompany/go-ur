@@ -411,6 +411,10 @@ build() {
     _make_win \
     _make \
     _usr
+  if [[ "${_os}" == "Msys" ]]; then
+    export \
+      GOOS="windows"
+  fi
   _cflags=(
     ${CFLAGS}
   )
